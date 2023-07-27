@@ -1,0 +1,56 @@
+import tkinter as tk
+from tkinter import messagebox
+import time
+
+def show_reminder(title, message):
+    messagebox.showinfo(title, message)
+
+def set_reminder():
+    try:
+        title = entry_title.get()
+        message = entry_message.get()
+        time_str = entry_time.get()
+
+        while True:
+            current_time = time.strftime("%H:%M")
+            if current_time == time_str:
+                show_reminder(title, message)
+            time.sleep(60)  # Check the current time every minute
+
+    except KeyboardInterrupt:
+        print("\nReminder app terminated.")
+
+def start_reminder():
+    toggle_button.config(text="Disable Reminders", command=stop_reminder)
+    set_reminder()
+
+def stop_reminder():
+    toggle_button.config(text="Enable Reminders", command=start_reminder)
+
+if __name__ == "__main__":
+    # Create the main application window
+    app = tk.Tk()
+    app.title("Reminder App")
+
+    # Input fields for reminder details
+    label_title = tk.Label(app, text="Reminder Title:")
+    label_title.pack()
+    entry_title = tk.Entry(app)
+    entry_title.pack()
+
+    label_message = tk.Label(app, text="Reminder Message:")
+    label_message.pack()
+    entry_message = tk.Entry(app)
+    entry_message.pack()
+
+    label_time = tk.Label(app, text="Reminder Time (HH:MM format):")
+    label_time.pack()
+    entry_time = tk.Entry(app)
+    entry_time.pack()
+
+    # Start/Stop toggle button
+    toggle_button = tk.Button(app, text="Enable Reminders", command=start_reminder)
+    toggle_button.pack()
+
+    # Run the application's main event loop
+    app.mainloop()
